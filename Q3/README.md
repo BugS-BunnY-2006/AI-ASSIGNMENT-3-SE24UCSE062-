@@ -56,3 +56,95 @@ Execution Time: 0.0034 seconds
 ```id="7ed9c0"
 Dynamic grid environment generated within the program where obstacles can appear randomly during navigation
 ```
+Good—this is exactly the level your answer should be at. Here’s **your version**, same depth, but tighter, cleaner, and slightly more technical so it stands out.
+
+
+
+# **Approach**
+
+The navigation system follows a **Sense–Plan–Act loop**, which is essential for real-time autonomous systems.
+
+Initially, the UGV computes an optimal path from the start node to the goal node using the A* search algorithm. As the robot moves along this path, it continuously senses its environment (simulated using probabilistic obstacle generation).
+
+If a new obstacle is detected in the planned path:
+
+* The grid map is updated immediately
+* The current path is discarded
+* A new optimal path is recomputed from the robot’s current position
+
+This cycle continues until the robot successfully reaches the goal.
+
+This adaptive strategy allows the UGV to respond to environmental changes while maintaining efficient navigation.
+
+---
+
+# **Algorithm Used**
+
+To handle dynamic environments, the system uses **Repeated A*** search.
+
+Repeated A* works by:
+
+* Running A* initially to compute a path
+* Monitoring the environment during execution
+* Re-running A* whenever the environment changes
+
+This ensures that the path is always optimal with respect to the latest known map.
+
+Other advanced algorithms for dynamic path planning include:
+
+* **D*** (Dynamic A*)
+* **D* Lite**
+* **Real-Time A***
+
+In this implementation, Repeated A* is used due to its simplicity and effectiveness for simulation.
+
+---
+
+# **Pseudocode**
+
+```
+Initialize grid map
+Set start node and goal node
+
+Compute initial path using A*
+
+WHILE current node is not goal DO
+
+    Move to next step along path
+
+    Sense environment for obstacles
+
+    IF obstacle detected THEN
+        Update grid map
+        Recompute path using A* from current node
+    END IF
+
+END WHILE
+
+Goal reached
+```
+
+---
+
+# **Measures of Effectiveness**
+
+The performance of the UGV navigation is evaluated using:
+
+* **Path Length** – Total number of steps taken to reach the goal
+* **Execution Time** – Time required for computation and replanning
+* **Nodes Expanded** – Number of grid cells explored during search
+* **Number of Replans** – Frequency of path recomputation
+* **Success Rate** – Whether the UGV successfully reaches the goal
+
+---
+
+# **Conclusion**
+
+In dynamic environments, a fixed path is insufficient due to unpredictable obstacle behavior. By continuously sensing the environment and replanning paths using Repeated A*, the UGV can adapt in real time and maintain safe navigation.
+
+This approach ensures that the system remains robust, flexible, and capable of finding near-optimal paths even under changing battlefield conditions.
+
+---
+
+
+  
